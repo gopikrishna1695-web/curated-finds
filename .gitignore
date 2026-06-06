@@ -1,0 +1,17 @@
+/node_modules
+/.next
+/out
+/build
+next-env.d.ts
+.DS_Store
+*.pem
+.env*.local
+npm-debug.log*
+.vercel
+*.tsbuildinfo
+
+# Editor / tooling
+.claude/
+.idea
+.vscode/*
+!.vscode/extensions.json
