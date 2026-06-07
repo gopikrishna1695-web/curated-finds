@@ -1,100 +1,94 @@
-# Curated Finds — cinematic Amazon affiliate showcase
+# Curated Finds — my cinematic affiliate storefront
 
-A Next.js + Framer Motion storefront for affiliate marketing. Pinterest traffic
-lands here, browses products by category, spins featured items in cinematic 360°
-(with a multi-angle gallery fallback), and clicks through to Amazon via tagged
-affiliate links.
+This repository **is my website** — the full source code for a cinematic,
+animated Amazon affiliate storefront. Visitors come in from Pinterest, browse
+products by category, spin featured items in 360°, and click through to Amazon.
 
-Built with the **ui-ux-pro-max** design system: Liquid Glass style, premium
-black + gold palette, Playfair Display + Inter typography.
+Built with **Next.js + Framer Motion**, designed with the **ui-ux-pro-max**
+system (Liquid Glass style, premium black + gold, Playfair Display + Inter).
+
+> 📁 **The website lives in the folders below.** Click any file on GitHub to read
+> or edit the code. This README is just the cover page.
 
 ---
 
-## ▶️ Run it on GitHub (Codespaces — no local setup)
+## 🗺️ Where everything is (the website's code)
 
-1. Push this repo to GitHub (see below).
-2. On the repo page click **`< > Code` → Codespaces → Create codespace on main**.
-3. The container installs deps and starts the dev server automatically. When the
-   **port 3000** notification appears, click **Open in Browser**.
+| I want to change… | Open this file |
+|---|---|
+| **My products** (names, descriptions, images, Amazon links, categories) | **`data/catalog.ts`** ← edit this most |
+| The homepage layout / section order | `app/page.tsx` |
+| The hero / headline at the top | `components/Hero.tsx` |
+| The big cinematic 360° product viewer | `components/FeaturedShowcase.tsx` + `components/Product360Viewer.tsx` |
+| The product cards in the grid | `components/ProductCard.tsx` |
+| The category filter tabs | `components/CategoryNav.tsx` + `components/ProductGrid.tsx` |
+| The "View on Amazon" button | `components/AffiliateButton.tsx` |
+| **Colors, fonts, glass look** | `tailwind.config.ts` and `app/globals.css` |
+| The page title / SEO description | `app/layout.tsx` |
 
-> The `.devcontainer/` config handles Node, `npm install`, and `npm run dev`.
+```
+app/         → pages & global styles (Next.js App Router)
+components/   → every visual piece of the site
+data/         → my catalog: categories + products  ← start here
+lib/          → shared TypeScript types
+public/       → product images & 360° frame sets
+```
 
-## 💻 Run it locally
+---
 
-Requires Node.js 18.17+ (Node 22 recommended).
+## ✏️ How to make changes
 
+**Easiest (right in the browser, no setup):**
+- On GitHub, open a file → click the **pencil ✏️ icon** → edit → **Commit changes**.
+- Or press **`.`** (period) on the repo page to open the full VS Code web editor.
+
+**On your computer:**
 ```bash
+git clone https://github.com/gopikrishna1695-web/curated-finds.git
+cd curated-finds
 npm install
-npm run dev      # http://localhost:3000
+npm run dev        # preview at http://localhost:3000
 ```
-
-Production build:
-
+Edit files, save, and the browser updates live. When happy:
 ```bash
-npm run build && npm start
+git add -A && git commit -m "Update products" && git push
 ```
 
-## 🚀 Deploy (free)
+### Add / edit my products
 
-Easiest is **Vercel** (made by the Next.js team):
+Everything is in **`data/catalog.ts`**:
 
-1. Push to GitHub.
-2. Go to https://vercel.com/new, import this repo, click **Deploy**. Done — no
-   config needed.
-
----
-
-## ✏️ Add YOUR products
-
-Everything is driven by one file: **`data/catalog.ts`**.
-
-1. Set your Amazon Associates tag:
-   ```ts
-   export const DEFAULT_TAG = "your-tag-20";
-   ```
-2. Edit the `seed` lists (grouped by category). Each entry is
-   `[name, description, opts?]`:
+1. Set my Amazon Associates tag once: `export const DEFAULT_TAG = "my-tag-20";`
+2. Each product is one line — `[name, description, options]`:
    ```ts
    ["Wireless Earbuds", "Immersive ANC sound.", {
-     affiliateUrl: "https://www.amazon.com/dp/XXXXXXXX?tag=your-tag-20",
+     affiliateUrl: "https://www.amazon.com/dp/XXXXXXXX?tag=my-tag-20",
      image: "https://m.media-amazon.com/images/I/XXXX.jpg",
-     featured: true,            // show in the cinematic 360 showcase
+     featured: true,          // show in the big 360° showcase
    }],
    ```
-3. Images can be **local** (put files in `public/products/...`, reference
-   `/products/...`) or **remote Amazon URLs** (allowed hosts are configured in
-   `next.config.mjs` — add hosts there if needed).
-
-### True 360° spin (per product)
-
-Drop a rotation frame set (24–72 photos around the object) into
-`public/products/<id>/`, then add `frames360` to that product's `opts`:
-
-```ts
-frames360: ["/products/my-id/0001.jpg", "/products/my-id/0002.jpg", /* ... */],
-```
-
-If `frames360` has >1 image the showcase becomes **drag-to-spin 360°**;
-otherwise it cinematically cross-fades the `gallery` / poster image.
+3. For a true **360° spin**, drop rotation frames into `public/products/<id>/`
+   and add `frames360: ["/products/<id>/0001.jpg", ...]` to that product.
 
 ---
 
-## 🧩 Project structure
+## 👀 See it live (deploy)
 
-```
-app/            # Next.js App Router (layout, page, globals.css)
-components/      # Hero, FeaturedShowcase, ProductGrid, ProductCard,
-                #   CategoryNav, Product360Viewer, AffiliateButton
-data/catalog.ts # ← your categories + products live here
-lib/types.ts    # Category / Product types
-public/products/# product images / 360 frame sets
-```
+The code here is the blueprint — to get a public web address people can visit,
+deploy it (free):
+
+- **Vercel** (recommended for Next.js): go to <https://vercel.com/new>, import
+  this repo, click **Deploy**. You get a URL like `curated-finds.vercel.app`.
+  After that, **every `git push` auto-updates the live site.**
+- **GitHub Codespaces**: repo → `< > Code` → Codespaces → *Create codespace* to
+  run it in your browser (preconfigured in `.devcontainer/`).
+
+---
 
 ## ✅ Affiliate compliance
 
-- Affiliate links use `rel="nofollow sponsored noopener"`.
-- The required Amazon Associate disclosure is shown in the footer and near each
-  buy button — keep it (program requirement).
+Affiliate links use `rel="nofollow sponsored noopener"`, and the required Amazon
+Associate disclosure appears in the footer and near each buy button.
 
 ## Stack
 
