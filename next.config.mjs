@@ -1,15 +1,21 @@
 /** @type {import('next').NextConfig} */
+
+// Repo name — used as the base path when hosted on GitHub Pages
+// (served at https://<user>.github.io/<repo>/).
+const repo = "curated-finds";
+const isProd = process.env.NODE_ENV === "production";
+
 const nextConfig = {
+  // Produce a fully static site in ./out for GitHub Pages.
+  output: "export",
+  // Serve correctly from the /curated-finds/ subpath in production only,
+  // so local `npm run dev` still works at the root.
+  basePath: isProd ? `/${repo}` : "",
+  assetPrefix: isProd ? `/${repo}/` : "",
+  trailingSlash: true,
   images: {
-    // Allow Amazon product image CDNs + common hosts. Add your image hosts here.
-    remotePatterns: [
-      { protocol: "https", hostname: "**.media-amazon.com" },
-      { protocol: "https", hostname: "**.ssl-images-amazon.com" },
-      { protocol: "https", hostname: "m.media-amazon.com" },
-      { protocol: "https", hostname: "images-na.ssl-images-amazon.com" },
-      // Placeholder demo images — remove when you swap in real product photos.
-      { protocol: "https", hostname: "picsum.photos" },
-    ],
+    // Required for static export (no Next image optimization server).
+    unoptimized: true,
   },
 };
 
